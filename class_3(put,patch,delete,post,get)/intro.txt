@@ -1,0 +1,5 @@
+Express => makes things easies for us;
+Express => built on top of HTTP modules of node;
+we have to install by {npm init};
+install express by {npm i express}
+intsall npm i nodemon
