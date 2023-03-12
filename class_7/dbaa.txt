@@ -1,0 +1,6 @@
+npm i mongoose;
+
+
+await is used for waiting the function to execute first else it will skip and render the other functions which are less time consuming
+
+TypeCASTIN : if a num or string is possoble to conevrtible to the require schema it will done sutomaticall

@@ -1,0 +1,126 @@
+/CRUD -
+   
+
+decreasing a num - $inc and negative value; 
+db.users.updateMany({age : 31}, {$inc : {age : -5}})
+
+indexing - 
+          O(1) - when finding by ID 
+          O(n) - traversing through all documents
+
+
+
+// _id is indexed by default in mongo -> O(1)
+// name -> we can index the keys that we want to, read more on indexing from documentation
+
+
+//.pretty()
+//.limit(no) - limits the resulting documents to that number
+db.users.find({country:"India"}).limits(2).pretty()
+//.skip(no) - skips that number of resulting documents
+db.users.find({country:"India"}).skip(2).pretty() //it will skip the starting two
+SKIP AND LIMITS 
+db.users.find({country:"India"}).skip(2).limits(2).pretty()//it will skip first two and sfter that return two from there
+
+//page_no=1 per_page = 5
+db.find().skip(0).limit(5)
+
+//page_no=3 per_page = 5
+db.find().skip(10).limit(5)
+
+//page_no=8 per_page = 5
+db.find().skip(35).limit(5)
+
+
+SORTING
+
+Increasing
+
+db.users.find().sort({id:1}).pretty();// Sorting in Increasing Order
+db.users.find().sort({name:1}).pretty()
+db.users.find({country:"India"}).sort({name:1}).pretty()
+
+Decreasing
+db.users.find().sort({id:-1}).pretty();// Sorting in Decreasing Order
+db.users.find().sort({name:-1}).pretty()
+
+formula for skip = (page_no - 1)*per_page
+
+//.sort({key : 1/-1}) = asc = 1, desc = -1
+
+//ASCII - 
+
+//.collation
+To avoid the effect of ASCII in sortingg or it will sort irrespective of the case caseLevel
+db.users.find().sort({name:1}).pretty().collation({locale:"en",caseLevel:"true})
+
+//logical operators
+
+//AND - 
+//country India, city Pune -
+ db.users.find({country : "India", city : "Pune", age : 25}).pretty()
+ db.users.find({$and:[{country:"India"},{city:"Pune"}]}).pretty();
+
+
+HOW OR operators WORKS
+// OR - {$or : [{},{},{}]}
+ db.users.find({$or : [{city:"Pune"},{country:"India"},{name:"Anurag"}]}).pretty()
+
+//NOR
+db.users.find({$nor : [{city:"Pune"},{country:"India"},{name:"Anurag"}]}).pretty()
+
+//Comparision operators
+>  gt
+>= gte
+<  lt
+<= lte
+== eq
+!= ne
+
+//greater
+db.users.find({age:{$gt:18}}).pretty() //it will filter the age greater than 18
+
+//field or keys:
+
+$exists
+$unset  - {$unset : {key_name : ""}} //To delete particular key value pair
+db.users.updateOne({name:"pallavi"},{$unset:{course:""}})
+$rename - db.users.updateMany({country:"India},{$rename:{name:naam}})
+db.users.updateMany({},{$rename:{name:naam}})
+
+//accessing nested documents "key.key.key" : "value"
+db.users.find({"address.city":"alaska"}).pretty();
+db.users.find({"address.geo.lat":"35.2314"}).pretty();
+
+// 1 should we remember all these queries? - NO;
+// 2 documentation ->;
+// 3 cheatsheet ->
+
+
+//FIELD
+//Exists=>db.users.find({name:{$exists:true}})  //it  will give the data who have keys as "name"
+
+//type=> db.users.find({age:{$type:"string"}}).pretty();
+//inc
+//min => db.users.updateOne({name:"Vinuth"},{$min:{age:21}})//it will compare the previos and passing age and update the lesser of them
+//rename=>db.users.updateMany({},{$rename:{family_members:"family"}})
+//set=>db.users.updateOne({name:"Vinuth"},{$set:{age:23}}) //it will update or if age is nor there it will create the data for age
+//unset=>db.users.updateOne({name:"Vinuth"},{$unset:{name:""}})
+
+
+//all=> db.users.find({marks:{$all:[23,12]}}) //if both marks [23,12] is present than only show the data
+
+//in => db.users.find({marks:{$in:[21,21,21,42,22]}}).pretty();//if any of them is present it will fetch
+
+
+//size=> db.users.find({values:{$size:2}})//it will fetch the data value size array length is 2
+
+//object inside array=>db.users.find({"places.type":"Home"}).pretty();
+
+//double sort=> db.users.find({$sort:{age:1},{$sort:{balance:-1}}}) //it will sort balance in decreasing order when age is same else perform data base accoding to increasinga age
+//sort=>sb.users.find().sort({age:1,value:-1})
+
+//push=>db.users.updateOne({name:"Anrag"},{$push:{marks:[2,21,2]}})
+
+
+//For Deleting database => switch to database then => db.dropDatabase()

@@ -1,0 +1,8 @@
+  db.students.find({gender:"Male"}).pretty()
+  db.students.find({native:"Japan"}).pretty()
+  db.users.find({country : "India", city : "Pune", age : 25}).pretty()
+  db.students.find({age:{$gt:24}}).pretty()
+  db.students.find({native : "United States", age : 37}).pretty()
+  db.students.find({relocate_to:'France'}).pretty() 
+  db.students.find({native:"United States",relocate_to:"France"}).sort({id:1}).pretty() 
+  
