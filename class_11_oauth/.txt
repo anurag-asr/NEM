@@ -1,0 +1,8 @@
+Github
+Developer Settings
+Oauth Apps
+New Oauth Application
+Name,Homepage Url,callback url,Register Application
+Please save the clien_id and generate client_Secret_code and save it
+Now go to you aplication on vs code '
+now check index.js all the rquired details are there;
