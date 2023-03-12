@@ -1,0 +1,159 @@
+ABOUT FILE SYSTEM
+
+create a folder name it thapa:mkdirSync("name.js);
+create a file and enter data into it:writefileSync("dobby.txt","hey this is thapa");
+add more data into the same file:assyncFileSync("dobby.txt","welcome to our channel");
+read the data without getting the buffer data:let raw=fs.readFileSync("dobby.txt","utf-8",flag:r);
+
+
+for synchronou the same thing can we done :
+assyncFile("dobby.txt","utf-8",(err,data)=>{
+    console.log("in asynchronoue programmunfg you have to pass callback")
+})
+in synchronous programming we have to pass callback unlike asynchronoue
+
+
+About Event MODULES
+nodesj has a build in module called =events;
+
+registered the events which will fired only one time using on:
+  const EventEmitter=require("events");
+  const event=new EventEmitter()//event is an object because Eventemtter is an class
+  event.on("update data",()=>{console.log("event worked successfully")});
+  event.emit("update data")
+
+create an event emitter instance and regustered a couple of events;
+
+ const EventEmitter=require("events");
+  const event=new EventEmitter()//event is an object because Eventemtter is an class
+  event.on("update data",()=>{console.log("event worked successfully")});
+  event.on("update data",()=>{console.log("event worked successfully")});
+  
+  event.emit("update data")
+
+
+registered for the events with callbacks;
+const EventEmitter=require("events");
+cosnt event=new EventEmitter();
+event.on("checkpage",(sc,msg)=>{console.log(`your status code is ${sc} and status is ${msg}`)})
+
+event.emit("checkpage",200,"ok")
+F:\Unit-6\NEM111\Events\events.txt
+
+About PATH MODULES;
+const path=require("path");
+console.log(path.dirname("F:\Unit-6\NEM111\class_14_fronednt_backend"));//folder name
+console.log(path.extname("F:\Unit-6\NEM111\class_14_fronednt_backend"))//file extenstion
+console.log(path.basename("F:\Unit-6\NEM111\class_14_fronednt_backend"))//filename
+console.log(path.parse("F:\Unit-6\NEM111\class_14_fronednt_backend"))//it will return object which will consist all the above and two other
+
+
+JSON
+JSON stands for javscript Object Notation. JSON  is a lightweight format for storing and tranform data
+JSON is often used when data is tranferred from server to client/webpage;
+data to JSON format: JSON.stringify(data)// json data have string on both key and values in obj ;
+JSON to data : JSON.parse(data)//data convert form JSON to normal format;
+JSON data only save in .json extenstion
+
+__dirname indicates that above head/main directory/folder;
+
+npm packages upgrade;
+npm i moment@1.23.1;
+npm outdate: show the [current package:wantedpackage:latestpackage]
+npm upgrade moment: it will update it to wanted packages;
+npm i moment: it will install the lastest packages
+
+STREAMS:
+Streams are objects that let you read data from a source or write data to a destination in continuous fashion.
+ In Node.js, there are four types of streams −
+
+Readable − Stream which is used for read operation.
+Writable − Stream which is used for write operation.
+Duplex − Stream which can be used for both read and write operation.
+Transform − A type of duplex stream where the output is computed based on input.
+
+Each type of Stream is an EventEmitter instance and throws several events at different instance of times. 
+For example, some of the commonly used events are −
+
+data − This event is fired when there is data is available to read.
+end − This event is fired when there is no more data to read.
+error − This event is fired when there is any error receiving or writing data.
+finish − This event is fired when all the data has been flushed to underlying system.
+
+
+STREAMS:
+const fs=require("fs");
+const http=require("http");
+const server=http.createServer();
+
+server.on("request",(req,res)=>{
+
+    fisrt way of doing this
+    fs.readFile("input.txt",(err,data)=>{
+        if(err){console.log(err)};
+        else{
+            res.send(data)//if data is so big it will just go loading and but in the below methods you can tranfer the data in chunk form means in small packets
+        }
+    })
+
+
+    const stream=fs.createReadStream("input.txt");
+
+    stream.on("data",(chunkdata)=>{
+        res.send(chunkdata)
+    })
+
+    strean.on("err",()=>{
+        console.log("error");
+        res.send("file not found")
+    })
+
+    stream.on("end",()=>{res.send()})//send is used in place of res.write and res.end (It is replacing both the keywords works)
+
+ third way of doing this:
+    stream.pipe(res)//it will return the data as it receive so it is very fast compare the above method
+
+})
+
+server.listen(8001,(req,res)=>{
+    try{
+        console.log("connection successfully")
+    }
+    catch{
+        console.log("there is some error")
+    }
+})
+
+
+NODEMAILER;
+SMTP:Simple Male Tranfer protocol;
+
+##EXPRESS;
+is a web application framework that provides you with a simple api to build websites,web apps and backe ends
+
+why do we need EXPRESS;
+try to write small REST API server in palin nodejs(that is using only core modules) and then in Express.js.The latter will take you 5-10x less time and line of codes
+
+app.get("requestapi",(req,res)=>{})
+the callback function has two parameters, request(res) and response(res)
+has property for the request query string,parameters,body
+http headers etc;
+
+similarly the response object represents the HTTP response taht the express app send when it receives the request;
+in express you don't need to paas mention writeHead or stringify it will automatically do;
+res.send and res.json:these method are identical when objects or arrays is passed but res.json() will also convert 
+non-object,such as null and undefinded which are not valid json
+
+express middlewares we can use with the help of use keyword like app.use()
+relative path:"../../"
+absolute path:"__dirname,"../public"
+
+#DYNAMIC CONTENT IN EXPRESS
+TEMPLATE ENGNINES IN EXPRESS;
+Template engine is a part of Express that enables us to use static files in our applications.
+Template engine converts variables to values and changes the template to HTML files to send to the client.
+The default template engine of Express is Jade, but EJS is the most commonly used engine. 
+
+Some popular template engines that work with Express are Pug,Mustache,Handlebars and EJS. 
+express.js view engines for handling Handlebars
+The Express application generator uses Jade as its default, ..
